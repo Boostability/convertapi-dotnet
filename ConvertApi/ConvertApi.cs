@@ -65,7 +65,7 @@ namespace ConvertApiDotNet
 
         public async Task<ConvertApiResponse> ConvertAsync(string fromFormat, string toFormat, params ConvertApiBaseParam[] parameters)
         {
-            return await ConvertAsync(fromFormat, toFormat,  (IEnumerable<ConvertApiBaseParam>)parameters);
+            return await ConvertAsync(fromFormat, toFormat,  (IEnumerable<ConvertApiBaseParam>)parameters).ConfigureAwait(false);
         }
         
         public async Task<ConvertApiResponse> ConvertAsync(string fromFormat, string toFormat, IEnumerable<ConvertApiBaseParam> parameters)
@@ -94,7 +94,7 @@ namespace ConvertApiDotNet
                 else
                 if (parameter is ConvertApiFileParam)
                 {
-                    var convertApiUpload = await (parameter as ConvertApiFileParam).GetValueAsync();
+                    var convertApiUpload = await (parameter as ConvertApiFileParam).GetValueAsync().ConfigureAwait(false);
                     if (convertApiUpload != null)
                     {
                         dicList.Add(parameter.Name, convertApiUpload);
@@ -143,8 +143,8 @@ namespace ConvertApiDotNet
                 Query = !string.IsNullOrEmpty(Token) ? $"token={Token}&apikey={ApiKey}" : $"secret={Secret}"
             };
 
-            var response = await GetClient().PostAsync(url.Uri, _requestTimeoutInSeconds + 10, content);
-            var result = await response.Content.ReadAsStringAsync();
+            var response = await GetClient().PostAsync(url.Uri, _requestTimeoutInSeconds + 10, content).ConfigureAwait(false);
+            var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new ConvertApiException(response.StatusCode,
                     $"Conversion from {fromFormat} to {toFormat} error. {response.ReasonPhrase}", result);
@@ -163,8 +163,8 @@ namespace ConvertApiDotNet
                 Query = $"secret={Secret}"
             };
 
-            var response = await GetClient().GetAsync(url.Uri, ConvertApiConstants.DownloadTimeoutInSeconds);
-            var result = await response.Content.ReadAsStringAsync();
+            var response = await GetClient().GetAsync(url.Uri, ConvertApiConstants.DownloadTimeoutInSeconds).ConfigureAwait(false);
+            var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new ConvertApiException(response.StatusCode, $"Retrieve user information failed. {response.ReasonPhrase}", result);
             return JsonConvert.DeserializeObject<ConvertApiUser>(result);

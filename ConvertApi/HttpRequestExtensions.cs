@@ -41,7 +41,7 @@ namespace ConvertApiDotNet
             request.Headers.Add("User-Agent", ConvertApiConstants.HttpUserAgent);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return await convertApiHttpClient.Client.SendAsync(request);
+            return await convertApiHttpClient.Client.SendAsync(request).ConfigureAwait(false);
         }
 
         public static async Task<HttpResponseMessage> GetAsync(this IConvertApiHttpClient convertApiHttpClient, Uri url, int timeOut)
@@ -53,7 +53,7 @@ namespace ConvertApiDotNet
             };
             request.SetTimeout(new TimeSpan(0, 0, timeOut));
             request.Headers.Add("User-Agent", ConvertApiConstants.HttpUserAgent);
-            return await convertApiHttpClient.Client.SendAsync(request);
+            return await convertApiHttpClient.Client.SendAsync(request).ConfigureAwait(false);
         }
     }
 }
