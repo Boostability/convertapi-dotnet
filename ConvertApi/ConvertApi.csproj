@@ -18,7 +18,7 @@ All supported files conversions and manipulations can be found at https://www.co
 
 The Git repository can be found at 
 https://github.com/ConvertAPI/convertapi-dotnet</Description>
-    <PackageId>ConvertApi</PackageId>
+    <PackageId>Boost.ConvertApi</PackageId>
     <Product>ConvertApi</Product>
     <AssemblyName>ConvertApi</AssemblyName>
     <RootNamespace>ConvertApiDotNet</RootNamespace>
