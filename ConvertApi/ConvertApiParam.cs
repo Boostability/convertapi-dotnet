@@ -154,7 +154,7 @@ namespace ConvertApiDotNet
         {
             using (var fileStream = file.OpenRead())
             {
-                return await Upload(fileStream, fileStream.Name);
+                return await Upload(fileStream, fileStream.Name).ConfigureAwait(false);
             }
         }
 
@@ -174,10 +174,10 @@ namespace ConvertApiDotNet
                     Path = "/upload",
                 };
 
-                responseMessage = await ConvertApi.GetClient().PostAsync(url.Uri, ConvertApiConstants.UploadTimeoutInSeconds, content);
+                responseMessage = await ConvertApi.GetClient().PostAsync(url.Uri, ConvertApiConstants.UploadTimeoutInSeconds, content).ConfigureAwait(false);
             }
 
-            var result = await responseMessage.Content.ReadAsStringAsync();
+            var result = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (responseMessage.StatusCode != HttpStatusCode.OK)
             {
                 throw new ConvertApiException(responseMessage.StatusCode, $"Unable to upload file. {responseMessage.ReasonPhrase}", result);
@@ -194,8 +194,8 @@ namespace ConvertApiDotNet
                 Query = $"url={WebUtility.UrlEncode(remoteFileUrl.ToString())}"
             };
 
-            var responseMessage = await ConvertApi.GetClient().PostAsync(url.Uri, ConvertApiConstants.UploadTimeoutInSeconds, null);
-            var result = await responseMessage.Content.ReadAsStringAsync();
+            var responseMessage = await ConvertApi.GetClient().PostAsync(url.Uri, ConvertApiConstants.UploadTimeoutInSeconds, null).ConfigureAwait(false);
+            var result = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (responseMessage.StatusCode != HttpStatusCode.OK)
             {
                 throw new ConvertApiException(responseMessage.StatusCode, $"Unable to upload file. {responseMessage.ReasonPhrase}", result);
@@ -206,7 +206,7 @@ namespace ConvertApiDotNet
 
         public async Task<ConvertApiFiles> GetValueAsync()
         {
-            return Tasks == null ? null : await Tasks;
+            return Tasks == null ? null : await Tasks.ConfigureAwait(false);
         }
     }
 }
