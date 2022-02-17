@@ -25,7 +25,7 @@ https://github.com/ConvertAPI/convertapi-dotnet</Description>
     <AssemblyVersion>3.0.7.0</AssemblyVersion>
     <FileVersion>3.0.7.0</FileVersion>
     <PackageReleaseNotes>Added ConfigureAwait(false) to all awaited calls</PackageReleaseNotes>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageVersion>3.0.7</PackageVersion>
   </PropertyGroup>
 
