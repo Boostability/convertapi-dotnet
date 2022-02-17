@@ -101,14 +101,14 @@ namespace ConvertApiDotNet
 
         private static async Task<Stream> AsStreamAsync(Uri url)
         {
-            var httpResponseMessage = await ConvertApi.GetClient().GetAsync(url, ConvertApiConstants.DownloadTimeoutInSeconds);
-            return await httpResponseMessage.Content.ReadAsStreamAsync();
+            var httpResponseMessage = await ConvertApi.GetClient().GetAsync(url, ConvertApiConstants.DownloadTimeoutInSeconds).ConfigureAwait(false);
+            return await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
         }
 
         private static async Task<FileInfo> SaveFileAsync(Uri url, string fileName)
         {
             var fileInfo = new FileInfo(fileName);
-            using (var readFile = await AsStreamAsync(url))
+            using (var readFile = await AsStreamAsync(url).ConfigureAwait(false))
             {
                 using (var fileStream = fileInfo.OpenWrite())
                     readFile.CopyTo(fileStream);
@@ -120,22 +120,22 @@ namespace ConvertApiDotNet
         #region File Task Methods
         public static async Task<FileInfo> SaveFileAsync(this ConvertApiResponse response, string fileName)
         {
-            return await response.Files[0].SaveFileAsync(fileName);
+            return await response.Files[0].SaveFileAsync(fileName).ConfigureAwait(false);
         }
 
         public static async Task<List<FileInfo>> SaveFilesAsync(this ConvertApiResponse response, string outputDirectory)
         {
-            return await response.Files.SaveFilesAsync(outputDirectory);
+            return await response.Files.SaveFilesAsync(outputDirectory).ConfigureAwait(false);
         }
 
         public static async Task<Stream> FileStreamAsync(this ConvertApiFiles processedFile)
         {
-            return await AsStreamAsync(processedFile.Url);
+            return await AsStreamAsync(processedFile.Url).ConfigureAwait(false);
         }
 
         public static async Task<FileInfo> SaveFileAsync(this ConvertApiFiles processedFile, string fileName)
         {
-            return await SaveFileAsync(processedFile.Url, fileName);
+            return await SaveFileAsync(processedFile.Url, fileName).ConfigureAwait(false);
         }
 
         public static async Task<List<FileInfo>> SaveFilesAsync(this IEnumerable<ConvertApiFiles> processedFile, string outputDirectory)
@@ -143,7 +143,7 @@ namespace ConvertApiDotNet
             var list = new List<FileInfo>();
             foreach (var file in processedFile)
             {
-                list.Add(await file.SaveFileAsync(Path.Combine(outputDirectory, file.FileName)));
+                list.Add(await file.SaveFileAsync(Path.Combine(outputDirectory, file.FileName)).ConfigureAwait(false));
             }
 
             return list;
@@ -160,7 +160,7 @@ namespace ConvertApiDotNet
             var count = 0;
             foreach (var file in processedFile)
             {
-                var httpResponseMessage = await httpClient.DeleteAsync(file.Url);
+                var httpResponseMessage = await httpClient.DeleteAsync(file.Url).ConfigureAwait(false);
                 if (httpResponseMessage.StatusCode == HttpStatusCode.OK)
                     count += 1;
             }

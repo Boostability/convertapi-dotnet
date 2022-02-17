@@ -1,15 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>3.0.6</Version>
-    <Company>Baltsoft</Company>
-    <Authors>Baltsoft</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>3.0.7</Version>
+    <Company>Boostability</Company>
+    <Authors>Baltsoft Boostability</Authors>
     <PackageProjectUrl>https://www.convertapi.com</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/ConvertAPI/convertapi-dotnet</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Boostability/convertapi-dotnet</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageTags>pdf convert word excel powerpoint images web msoffice office openoffice postscript iworks</PackageTags>
-    <Copyright>2012-2020 Baltsoft</Copyright>
+    <Copyright></Copyright>
     <PackageLicenseUrl>https://www.convertapi.com/terms</PackageLicenseUrl>
     <PackageIconUrl>https://www.convertapi.com/favicon/android-chrome-192x192.png</PackageIconUrl>
     <Description>High-Performance File Conversion API. Convert various files like MS Word, Excel, PowerPoint, Images to PDF and Images. Create PDF and Images from url and raw HTML. Extract and create PowerPoint presentation from PDF. Merge, Encrypt, Split, Repair and Decrypt PDF files. 
@@ -24,7 +24,7 @@ https://github.com/ConvertAPI/convertapi-dotnet</Description>
     <RootNamespace>ConvertApiDotNet</RootNamespace>
     <AssemblyVersion>3.0.7.0</AssemblyVersion>
     <FileVersion>3.0.7.0</FileVersion>
-    <PackageReleaseNotes>Added file parameter overrides to fit Watermark PDF implementation. </PackageReleaseNotes>
+    <PackageReleaseNotes>Added ConfigureAwait(false) to all awaited calls</PackageReleaseNotes>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <PackageVersion>3.0.7</PackageVersion>
   </PropertyGroup>
