@@ -1,0 +1,29 @@
+version: 0.2
+
+env:
+  variables:
+    SLN_FILE: "."
+    TEST_FILTER: "FullyQualifiedName!~Integration&Unit"
+    # for nuget packages we build with the default configuration, which is debug
+    BUILD_CONFIG: "Debug"
+phases:
+  install:
+    runtime-versions:
+      dotnet: latest
+    commands:
+      - export PATH="$PATH:/root/.dotnet/tools"
+      - cd $SOURCE_DIR
+      - dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
+      - dotnet codeartifact-creds install
+  pre_build:
+    commands:
+      - dotnet nuget add source -n codeartifact $(aws codeartifact get-repository-endpoint --domain boostability --domain-owner 171627987654 --repository packages --format nuget --query repositoryEndpoint --output text)"v3/index.json"
+  build:
+    on-failure: ABORT
+    commands:
+      - dotnet build
+      - dotnet test $SLN_FILE -c $BUILD_CONFIG --no-build --filter $TEST_FILTER --logger "console;verbosity=detailed"
+      - dotnet pack -o .
+  post_build:
+    commands:
+      - dotnet nuget push *.nupkg -s codeartifact --skip-duplicate
